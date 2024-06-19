@@ -1,27 +1,31 @@
-// src/components/EditMember.js
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 const API_URL =
-  "https://crudcrud.com/api/ade053b74b2c4502a6f9697ae0b25808/members";
+  "https://crudcrud.com/api/b069d567089e49e8a2955ef17593f19e/members";
 
 const EditMember = ({ show, handleClose, memberId }) => {
-  const [member, setMember] = useState({});
+  const [member, setMember] = useState({
+    name: "",
+    Email: "",
+    age: "",
+    parent_id: "",
+  });
 
   useEffect(() => {
-    if (memberId) {
+    if (show) {
       fetchMemberDetails();
     }
-  }, [memberId]);
+  }, [show]);
 
   const fetchMemberDetails = async () => {
     try {
       const response = await axios.get(`${API_URL}/${memberId}`);
       setMember(response.data);
     } catch (error) {
-      console.error("Error fetching member details", error);
+      toast.error("Failed to fetch member details");
     }
   };
 
@@ -47,39 +51,39 @@ const EditMember = ({ show, handleClose, memberId }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="formName">
+          <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
               name="name"
-              value={member.name || ""}
+              value={member.name}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="formEmail">
+          <Form.Group>
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
               name="Email"
-              value={member.Email || ""}
+              value={member.Email}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="formAge">
+          <Form.Group>
             <Form.Label>Age</Form.Label>
             <Form.Control
               type="number"
               name="age"
-              value={member.age || ""}
+              value={member.age}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="formParentId">
+          <Form.Group>
             <Form.Label>Parent ID</Form.Label>
             <Form.Control
               type="text"
               name="parent_id"
-              value={member.parent_id || ""}
+              value={member.parent_id}
               onChange={handleChange}
             />
           </Form.Group>

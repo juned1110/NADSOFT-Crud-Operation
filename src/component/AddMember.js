@@ -1,11 +1,10 @@
-// src/components/AddMember.js
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 const API_URL =
-  "https://crudcrud.com/api/ade053b74b2c4502a6f9697ae0b25808/members";
+  "https://crudcrud.com/api/b069d567089e49e8a2955ef17593f19e/members";
 
 const AddMember = ({ show, handleClose, fetchMembers }) => {
   const [member, setMember] = useState({
@@ -22,11 +21,14 @@ const AddMember = ({ show, handleClose, fetchMembers }) => {
 
   const handleSave = async () => {
     try {
-      await axios.post(API_URL, member);
+      console.log("Sending POST request with payload:", member); 
+      const response = await axios.post(API_URL, member);
+      console.log("POST request successful with response:", response); 
       toast.success("Member added successfully");
-      fetchMembers();
       handleClose();
+      fetchMembers();
     } catch (error) {
+      console.error("Error adding member:", error); 
       toast.error("Failed to add member");
     }
   };
@@ -38,7 +40,7 @@ const AddMember = ({ show, handleClose, fetchMembers }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="formName">
+          <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
@@ -47,7 +49,7 @@ const AddMember = ({ show, handleClose, fetchMembers }) => {
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="formEmail">
+          <Form.Group>
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
@@ -56,7 +58,7 @@ const AddMember = ({ show, handleClose, fetchMembers }) => {
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="formAge">
+          <Form.Group>
             <Form.Label>Age</Form.Label>
             <Form.Control
               type="number"
@@ -65,7 +67,7 @@ const AddMember = ({ show, handleClose, fetchMembers }) => {
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group controlId="formParentId">
+          <Form.Group>
             <Form.Label>Parent ID</Form.Label>
             <Form.Control
               type="text"

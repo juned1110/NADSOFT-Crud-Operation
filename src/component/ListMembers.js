@@ -1,4 +1,3 @@
-// src/components/ListMembers.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,7 +7,7 @@ import EditMember from "./EditMember";
 import AddMember from "./AddMember";
 
 const API_URL =
-  "https://crudcrud.com/api/ade053b74b2c4502a6f9697ae0b25808/members";
+  "https://crudcrud.com/api/b069d567089e49e8a2955ef17593f19e/members";
 
 const ListMembers = () => {
   const [members, setMembers] = useState([]);
@@ -93,73 +92,85 @@ const ListMembers = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="container mt-5">
-      <h2>Members List</h2>
-      <Button variant="primary" className="mb-3" onClick={handleShowAddModal}>
-        Add New Member
-      </Button>
-      <Form.Control
-        type="text"
-        placeholder="Search by name"
-        className="mb-3"
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Member Name</th>
-            <th>Member Email</th>
-            <th>Age</th>
-            <th>Parent ID</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {console.log(currentMembers)}
-          {currentMembers.map((member) => (
-            <tr key={member._id}>
-              <td>{member._id}</td>
-              <td>
-                <a href="#" onClick={() => handleEditMember(member._id)}>
-                  {member.name}
-                </a>
-              </td>
-              <td>
-                <a href="#" onClick={() => handleEditMember(member._id)}>
-                  {member.Email}
-                </a>
-              </td>
-              <td>{member.age}</td>
-              <td>{member.parent_id}</td>
-              <td>
-                <Button
-                  variant="danger"
-                  onClick={() => deleteMember(member._id)}
-                >
-                  Delete
-                </Button>
-              </td>
+    <div className="container mt-5 ">
+      <h2>All Members</h2>
+
+      <div className="border p-3">
+        <div className="input-div">
+          <Form.Control
+            type="text"
+            placeholder="Search by name"
+            className="mb-3 input"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Button
+            className="mb-3 btn-success btn-add-member "
+            onClick={handleShowAddModal}
+          >
+            Add New Member
+          </Button>
+        </div>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Member Name</th>
+              <th>Member Email</th>
+              <th>Age</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-      <Pagination
-        membersPerPage={membersPerPage}
-        totalMembers={filteredMembers.length}
-        paginate={paginate}
-      />
-      <EditMember
-        show={showEditModal}
-        handleClose={handleCloseEditModal}
-        memberId={selectedMemberId}
-      />
-      <AddMember
-        show={showAddModal}
-        handleClose={handleCloseAddModal}
-        fetchMembers={fetchMembers}
-      />
-      <ToastContainer />
+          </thead>
+          <tbody>
+            {currentMembers.map((member) => (
+              <tr key={member._id}>
+                <td>{member.parent_id}</td>
+                <td className="name">
+                  <a onClick={() => handleEditMember(member._id)}>
+                    {member.name}
+                  </a>
+                </td>
+                <td className="email">
+                  <a onClick={() => handleEditMember(member._id)}>
+                    {member.Email}
+                  </a>
+                </td>
+                <td>{member.age}</td>
+                <td className="action">
+                  <div className="delete-action">
+                    <svg
+                      onClick={() => deleteMember(member._id)}
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="red"
+                      className="bi bi-trash3-fill ms-3"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+                    </svg>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <Pagination
+          membersPerPage={membersPerPage}
+          totalMembers={filteredMembers.length}
+          paginate={paginate}
+        />
+        <EditMember
+          show={showEditModal}
+          handleClose={handleCloseEditModal}
+          memberId={selectedMemberId}
+        />
+        <AddMember
+          show={showAddModal}
+          handleClose={handleCloseAddModal}
+          fetchMembers={fetchMembers}
+        />
+        <ToastContainer />
+      </div>
     </div>
   );
 };
